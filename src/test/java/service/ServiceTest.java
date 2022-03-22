@@ -3,8 +3,7 @@ package service;
 import domain.Student;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import repository.StudentXMLRepo;
@@ -19,7 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class ServiceTest {
 
-    @AfterEach
+    @After
     public void clearFile(){
         try {
             String filename = "src/test/java/fisiere_test/Studenti.xml";
