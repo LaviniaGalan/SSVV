@@ -129,7 +129,6 @@ public class ServiceIntegrationTest {
     @Test
     public void testAddStudent() {
         Student stud = new Student("2", "Popescu Ion", 1, "p.ion@gmail.com", "Ionescu Maria");
-
         try{
             service.addStudent(stud);
             Assert.assertTrue(true);
