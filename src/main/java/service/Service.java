@@ -163,10 +163,15 @@ public class Service {
         notaValidator.validate(nota);
         Student student = studentFileRepository.findOne(nota.getIdStudent());
         Tema tema = temaFileRepository.findOne(nota.getIdTema());
+
+        if(findNotaByStudentIdAndTemaId(student.getID(), tema.getID()) != null){
+            throw new ValidationException("Studentul are deja nota pentru aceasta tema!");
+        }
+
         int predare = calculeazaSPredare(nota.getData());
         if(predare > tema.getDeadline()){
-            if (predare-tema.getDeadline() == 1){
-                nota.setNota(nota.getNota()-2.5);
+            if (predare - tema.getDeadline() == 1){
+                nota.setNota(nota.getNota() - 2.5);
             }
             else{
                 throw new ValidationException("Studentul nu mai poate preda aceasta tema!");
@@ -179,7 +184,7 @@ public class Service {
             bufferedWriter.write("\nNota: " + nota.getNota());
             bufferedWriter.write("\nPredata in saptamana: " + predare);
             bufferedWriter.write("\nDeadline: " + tema.getDeadline());
-            bufferedWriter.write("\nFeedback: " +feedback);
+            bufferedWriter.write("\nFeedback: " + feedback);
             bufferedWriter.newLine();
         } catch (IOException exception){
             throw new ValidationException(exception.getMessage());
@@ -210,6 +215,18 @@ public class Service {
         }
         return notaFileRepository.findOne(id);
     }
+
+
+    public Nota findNotaByStudentIdAndTemaId(String studentId, String temaId){
+        for (Nota n : getAllNote()){
+            if(n.getIdStudent().equals(studentId) && n.getIdTema().equals(temaId))
+            {
+                return n;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * @return toate notele
@@ -246,7 +263,7 @@ public class Service {
     private int calculeazaSPredare(LocalDate predare) {
         LocalDate startDate = Curent.getStartDate();
         long days = DAYS.between(startDate, predare);
-        double saptamanaPredare = Math.ceil((double)days/7);
+        double saptamanaPredare = Math.ceil((double)(days+1)/7);
         return (int)saptamanaPredare;
     }
 }

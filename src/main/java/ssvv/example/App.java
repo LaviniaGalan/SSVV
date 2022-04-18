@@ -1,5 +1,6 @@
 package ssvv.example;
 
+import repository.NotaFileRepository;
 import repository.NotaXMLRepo;
 import repository.StudentXMLRepo;
 import repository.TemaXMLRepo;
